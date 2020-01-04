@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/kmyles82/NODE-JS-BLOG#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-edge": "^2.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
