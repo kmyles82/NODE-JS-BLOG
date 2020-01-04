@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true}))
 
 app.get('/', async (req, res) => {
     const posts = await Post.find({})
-    // console.log(post)
+    console.log(posts)
     res.render('index', {
         posts
     });
@@ -45,16 +45,18 @@ app.post('/posts/store', (req, res) => {
             // console.log(error, post)
             res.redirect('/')
     })
-
-    
 })
 
 app.get('/about', (req, res) => {
     res.render('about')
 })
 
-app.get('/post', (req, res) => {
-    res.render('post')
+app.get('/post/:id', async (req, res) => {
+    const post = await Post.findById(req.params.id)
+    // console.log(post)
+    res.render('post', {
+        post
+    })
 })
 
 app.get('/contact', (req, res) => {
