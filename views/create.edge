@@ -1,0 +1,48 @@
+@layout('layout.app')
+
+@section('content')
+
+ <header class="masthead" style="background-image: url('/img/contact-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="page-heading">
+                    <h1>New Post</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label for="title">Title</label>
+                        <input type="text" placeholder="Title" class="form-control">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label for="description">Description</label>
+                        <input type="text" placeholder="Description" class="form-control">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label for="content">Content</label>
+                        <textarea name="content" id="" cols="30" rows="10" placeholder="Content..."></textarea>
+                    </div>
+                </div>
+                <div class="form-group text-center my-4">
+                    <button class="btn-primary">Create Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endsection
