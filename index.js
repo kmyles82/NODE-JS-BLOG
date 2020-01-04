@@ -39,8 +39,10 @@ app.post('/posts/store', (req, res) => {
     // console.log(req.body)
     Post.create({
         title: req.body.title,
-        description: req.body.description,
-        contents: req.body.content
+        subtitle: req.body.subtitle,
+        content: req.body.content,
+        username: req.body.username
+        
     }, (error, post) => {
             // console.log(error, post)
             res.redirect('/')
