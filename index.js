@@ -5,6 +5,8 @@ const {
 } = require('express-edge');
 const express = require('express');
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const Post = require('./database/models/Post')
 
 const app = new express()
 
@@ -18,8 +20,29 @@ app.use(express.static('public'));
 app.use(engine);
 app.set('views', `${__dirname}/views`);
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true}))
+
 app.get('/', (req, res) => {
     res.render('index');
+})
+
+app.get('/posts/new', (req, res) => {
+    res.render('create')
+})
+
+app.post('/posts/store', (req, res) => {
+    // console.log(req.body)
+    Post.create({
+        title: req.body.title,
+        description: req.body.description,
+        contents: req.body.content
+    }, (error, post) => {
+            // console.log(error, post)
+            res.redirect('/')
+    })
+
+    
 })
 
 app.get('/about', (req, res) => {
@@ -34,9 +57,7 @@ app.get('/contact', (req, res) => {
     res.render('contact')
 })
 
-app.get('/post/new', (req, res) => {
-    res.render('create')
-})
+
 
 app.listen(4000, (req, res) => {
     console.log('App listening on port 4000');
