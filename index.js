@@ -43,10 +43,8 @@ app.post('/posts/store', (req, res) => {
 
     image.mv(path.resolve(__dirname, 'public/posts', image.name), (error) => {
         Post.create({
-            title: req.body.title,
-            subtitle: req.body.subtitle,
-            content: req.body.content,
-            username: req.body.username
+            ...req.body,
+            image: `/posts/${image.name}`
 
         }, (error, post) => {
             // console.log(error, post)
