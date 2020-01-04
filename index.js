@@ -16,12 +16,8 @@ app.get('/', (req, res) => {
     res.render('index');
 })
 
-app.get('/', (req, res) => {
-    edge.render('index')
-})
-
 app.get('/about', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/about.html'));
+    res.render('about')
 })
 
 app.get('/post', (req, res) => {
