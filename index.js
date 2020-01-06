@@ -11,6 +11,7 @@ const homePageController = require('./controllers/homePage')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
 const contactPageController = require('./controllers/contactPage')
+const createUserController = require('./controllers/createUser')
 const storePost = require('./middleware/storePost')
 
 const app = new express()
@@ -48,6 +49,8 @@ app.get('/about', (req, res) => {
 })
 
 app.get('/contact', contactPageController)
+
+app.get('/auth/register', createUserController)
 
 
 
