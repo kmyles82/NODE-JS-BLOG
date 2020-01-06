@@ -1,0 +1,20 @@
+const Post = require('../database/models/Post')
+const path = require('path')
+
+module.exports = (req, res) => {
+    console.log(req.files)
+    const {
+        image
+    } = req.files
+
+    image.mv(path.resolve(__dirname, '..', 'public/posts', image.name), (error) => {
+        Post.create({
+            ...req.body,
+            image: `/posts/${image.name}`
+
+        }, (error, post) => {
+            // console.log(error, post)
+            res.redirect('/')
+        })
+    })
+}

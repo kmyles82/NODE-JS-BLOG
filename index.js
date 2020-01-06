@@ -1,4 +1,3 @@
-const path = require('path');
 const {
     config,
     engine
@@ -6,8 +5,13 @@ const {
 const express = require('express');
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const Post = require('./database/models/Post')
 const fileUpload = require('express-fileupload')
+const createPostController = require('./controllers/createPost')
+const homePageController = require('./controllers/homePage')
+const storePostController = require('./controllers/storePost')
+const getPostController = require('./controllers/getPost')
+const contactPageController = require('./controllers/contactPage')
+const storePost = require('./middleware/storePost')
 
 const app = new express()
 
@@ -16,6 +20,7 @@ mongoose.connect('mongodb://localhost/node-js-blog', {
     useUnifiedTopology: true
 })
 
+//middleware
 app.use(fileUpload())
 app.use(express.static('public'));
 
@@ -25,61 +30,24 @@ app.set('views', `${__dirname}/views`);
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-const validateCreatePostMiddleware = (req, res, next) => {
-    console.log(req)
-    if (!req.files || !req.body.username || !req.body.title || !req.body.subtitle || !req.body.content) {
-        return res.redirect('/posts/new')
-    }
-    next()
-}
+//Custom middleware
+app.use('/posts/store/', storePost)
 
-app.use('/posts/store/', validateCreatePostMiddleware)
 
-app.get('/', async (req, res) => {
-    const posts = await Post.find({})
-    console.log(posts)
-    res.render('index', {
-        posts
-    });
-})
+//Request routes
+app.get('/', homePageController)
 
-app.get('/posts/new', (req, res) => {
-    res.render('create')
-})
+app.get('/posts/new', createPostController)
 
-app.post('/posts/store', (req, res) => {
-    console.log(req.files)
-    const { image } = req.files
+app.post('/posts/store', storePostController)
 
-    image.mv(path.resolve(__dirname, 'public/posts', image.name), (error) => {
-        Post.create({
-            ...req.body,
-            image: `/posts/${image.name}`
-
-        }, (error, post) => {
-            // console.log(error, post)
-            res.redirect('/')
-        })
-    })
-
-    
-})
+app.get('/post/:id', getPostController)
 
 app.get('/about', (req, res) => {
     res.render('about')
 })
 
-app.get('/post/:id', async (req, res) => {
-    const post = await Post.findById(req.params.id)
-    // console.log(post)
-    res.render('post', {
-        post
-    })
-})
-
-app.get('/contact', (req, res) => {
-    res.render('contact')
-})
+app.get('/contact', contactPageController)
 
 
 
