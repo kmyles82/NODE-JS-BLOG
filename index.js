@@ -23,7 +23,17 @@ app.use(engine);
 app.set('views', `${__dirname}/views`);
 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
+
+const validateCreatePostMiddleware = (req, res, next) => {
+    console.log(req)
+    if (!req.files || !req.body.username || !req.body.title || !req.body.subtitle || !req.body.content) {
+        return res.redirect('/posts/new')
+    }
+    next()
+}
+
+app.use('/posts/store/', validateCreatePostMiddleware)
 
 app.get('/', async (req, res) => {
     const posts = await Post.find({})
