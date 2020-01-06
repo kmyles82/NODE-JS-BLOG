@@ -19,7 +19,8 @@ const app = new express()
 
 mongoose.connect('mongodb://localhost/node-js-blog', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true,
 })
 
 //middleware

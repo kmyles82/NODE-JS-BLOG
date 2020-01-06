@@ -8,11 +8,16 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        // required: true
+        required: true
+        // unique: true
+        // match: [
+        //     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        //     'Please add a valid email'
+        // ]
     },
     password: {
         type: String,
-        // required: true
+        required: true
     }
     // createAt: {
     //     type: Date,
@@ -20,13 +25,13 @@ const UserSchema = new mongoose.Schema({
     // }
 })
 
-UserSchema.pre('save', async function(next){
+UserSchema.pre('save', async function (next) {
     const user = this;
-    
+
     //ecrypts user password
     const salt = await bcrypt.genSalt(10)
     user.password = await bcrypt.hash(user.password, salt)
-    
+
     next()
 })
 
