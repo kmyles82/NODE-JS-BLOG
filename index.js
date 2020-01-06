@@ -13,6 +13,8 @@ const getPostController = require('./controllers/getPost')
 const contactPageController = require('./controllers/contactPage')
 const createUserController = require('./controllers/createUser')
 const storeUserController = require('./controllers/storeUser')
+const loginController = require('./controllers/login')
+const loginUserController = require('./controllers/loginUser')
 const storePost = require('./middleware/storePost')
 
 const app = new express()
@@ -53,8 +55,10 @@ app.get('/about', (req, res) => {
 app.get('/contact', contactPageController)
 
 app.get('/auth/register', createUserController)
+app.get('/auth/login', loginController)
 
 app.post('/users/register', storeUserController)
+app.post('/users/login', loginUserController)
 
 
 
