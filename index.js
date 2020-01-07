@@ -17,6 +17,7 @@ const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
 const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
+const auth = require('./middleware/auth')
 const storePost = require('./middleware/storePost')
 
 const app = new express()
@@ -45,34 +46,31 @@ app.use(express.static('public'));
 app.use(engine);
 app.set('views', `${__dirname}/views`);
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Custom middleware
-app.use('/posts/store/', storePost)
+// app.use('/posts/store/', storePost);
+//app.use('/posts/new', auth);
+
 
 
 //Request routes
 app.get('/', homePageController)
 
-app.get('/posts/new', createPostController)
-
-app.post('/posts/store', storePostController)
-
 app.get('/post/:id', getPostController)
 
-app.get('/about', (req, res) => {
-    res.render('about')
-})
+app.get('/posts/new', auth, createPostController)
 
-app.get('/contact', contactPageController)
+app.post('/posts/store', auth, storePost, storePostController)
 
-app.get('/auth/register', createUserController)
 app.get('/auth/login', loginController)
 
-app.post('/users/register', storeUserController)
 app.post('/users/login', loginUserController)
 
+app.get('/auth/register', createUserController)
+
+app.post('/users/register', storeUserController)
 
 
 app.listen(4000, (req, res) => {
