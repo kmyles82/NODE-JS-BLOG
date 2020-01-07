@@ -16,6 +16,7 @@ const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
 const expressSession = require('express-session')
+const connectMongo = require('connect-mongo')
 const storePost = require('./middleware/storePost')
 
 const app = new express()
@@ -26,10 +27,15 @@ mongoose.connect('mongodb://localhost/node-js-blog', {
     useCreateIndex: true,
 })
 
+const mongoStore = connectMongo(expressSession);
+
 app.use(expressSession({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new mongoStore({
+        mongooseConnection: mongoose.connection
+    })
 }))
 
 //middleware
