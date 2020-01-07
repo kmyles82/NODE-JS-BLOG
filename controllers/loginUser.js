@@ -13,7 +13,9 @@ module.exports = (req, res) => {
                 //if user password is correct login user
                 if (samePassword) {
                     //store user session
-
+                    req.session.userId = user._id
+                    // console.log('Session ID: ', req.session)
+                    // console.log('User ID: ', user._id)
                     res.redirect('/');
                 } else {
                     //else redirect user back

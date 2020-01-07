@@ -15,6 +15,7 @@ const createUserController = require('./controllers/createUser')
 const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
+const expressSession = require('express-session')
 const storePost = require('./middleware/storePost')
 
 const app = new express()
@@ -24,6 +25,12 @@ mongoose.connect('mongodb://localhost/node-js-blog', {
     useUnifiedTopology: true,
     useCreateIndex: true,
 })
+
+app.use(expressSession({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}))
 
 //middleware
 app.use(fileUpload())
