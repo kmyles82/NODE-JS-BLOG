@@ -1,7 +1,15 @@
 
-module.exports = async (req, res) => {
-    console.log(req.session.registrationErrors)
+module.exports = (req, res) => {
+    console.log(req.flash('data'))
     res.render('register', {
-        errors: req.flash('registrationErrors')
+        errors: req.flash('registrationErrors'),
+        data: req.flash('data')[0]
     })
 }
+
+// module.exports = (req, res) => {
+//     res.render('register', {
+//         errors: req.flash('registrationErrors'),
+//         data: req.flash('data')[0]
+//     })
+// }
