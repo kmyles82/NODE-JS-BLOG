@@ -17,6 +17,7 @@ const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
 const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
+const connectFlash = require('connect-flash')
 const auth = require('./middleware/auth')
 const storePost = require('./middleware/storePost')
 
@@ -27,6 +28,8 @@ mongoose.connect('mongodb://localhost/node-js-blog', {
     useUnifiedTopology: true,
     useCreateIndex: true,
 })
+
+app.use(connectFlash());
 
 const mongoStore = connectMongo(expressSession);
 
