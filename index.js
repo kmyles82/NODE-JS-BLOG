@@ -18,6 +18,7 @@ const createUserController = require("./controllers/createUser");
 const storeUserController = require("./controllers/storeUser");
 const loginController = require("./controllers/login");
 const loginUserController = require("./controllers/loginUser");
+const logoutController = require("./controllers/logout");
 const edge = require('edge.js')
 
 const app = new express()
@@ -81,6 +82,8 @@ app.post('/users/login', redirectIfAuthenticated, loginUserController)
 app.get('/auth/register', redirectIfAuthenticated, createUserController)
 
 app.post('/users/register', redirectIfAuthenticated, storeUserController)
+
+app.get('/auth/logout', logoutController)
 
 
 app.listen(4000, (req, res) => {
