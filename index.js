@@ -18,6 +18,7 @@ const createUserController = require("./controllers/createUser");
 const storeUserController = require("./controllers/storeUser");
 const loginController = require("./controllers/login");
 const loginUserController = require("./controllers/loginUser");
+const edge = require('edge.js')
 
 const app = new express()
 
@@ -47,6 +48,11 @@ app.use(express.static('public'));
 app.use(engine);
 app.set('views', `${__dirname}/views`);
 
+app.use('*', (req, res, next) => {
+    edge.global('auth', req.session.userId)
+    next()
+})
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -55,6 +61,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use('/posts/new', auth);
 const storePost = require("./middleware/storePost");
 const auth = require('./middleware/auth')
+
+const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
 
 
 //Request routes
@@ -66,13 +74,13 @@ app.get('/posts/new', auth, createPostController)
 
 app.post('/posts/store', auth, storePost, storePostController)
 
-app.get('/auth/login', loginController)
+app.get('/auth/login', redirectIfAuthenticated, loginController)
 
-app.post('/users/login', loginUserController)
+app.post('/users/login', redirectIfAuthenticated, loginUserController)
 
-app.get('/auth/register', createUserController)
+app.get('/auth/register', redirectIfAuthenticated, createUserController)
 
-app.post('/users/register', storeUserController)
+app.post('/users/register', redirectIfAuthenticated, storeUserController)
 
 
 app.listen(4000, (req, res) => {
