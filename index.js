@@ -83,7 +83,7 @@ app.get('/auth/register', redirectIfAuthenticated, createUserController)
 
 app.post('/users/register', redirectIfAuthenticated, storeUserController)
 
-app.get('/auth/logout', logoutController)
+app.get('/auth/logout', redirectIfAuthenticated, logoutController)
 
 
 app.listen(4000, (req, res) => {
