@@ -99,6 +99,6 @@ app.use((req, res) => {
 })
 
 
-app.listen(4000, (req, res) => {
-    console.log('App listening on port 4000');
+app.listen(process.env.PORT, (req, res) => {
+    console.log(`App listening on port ${process.env.PORT}`);
 })
