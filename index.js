@@ -1,3 +1,4 @@
+require('dotenv').config()
 const {
     config,
     engine
@@ -22,16 +23,16 @@ const logoutController = require("./controllers/logout");
 const cloudinary = require('cloudinary')
 
 cloudinary.config({
-    api_key: '915688628912154',
-    api_secret: 'Aw1L0ADlsPdrfi1HAGhsQWlKnOc',
-    cloud_name: 'vue-blog'
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: process.env.CLOUDINARY_NAME
 });
 
 const edge = require('edge.js')
 
 const app = new express()
 
-mongoose.connect('mongodb://localhost/node-js-blog', {
+mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -42,7 +43,7 @@ app.use(connectFlash());
 const mongoStore = connectMongo(expressSession);
 app.use(expressSession({
 
-secret: 'secret',
+secret: process.env.EXPRESS_SESSION_KEY,
 resave: true,
 saveUninitialized: true,
 store: new mongoStore({
