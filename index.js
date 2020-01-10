@@ -19,6 +19,13 @@ const storeUserController = require("./controllers/storeUser");
 const loginController = require("./controllers/login");
 const loginUserController = require("./controllers/loginUser");
 const logoutController = require("./controllers/logout");
+const cloudinary = require('cloudinary')
+
+cloudinary.config({
+    api_key: '915688628912154',
+    api_secret: 'Aw1L0ADlsPdrfi1HAGhsQWlKnOc',
+    cloud_name: 'vue-blog'
+});
 
 const edge = require('edge.js')
 
